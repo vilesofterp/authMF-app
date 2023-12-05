@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>autMF_api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ZionApi">
+      <HintPath>..\..\api-common-bin\ZionApi\ZionApi.dll</HintPath>
+    </Reference>
+    <Reference Include="ZionOrm">
+      <HintPath>..\..\api-common-bin\ZionOrm\ZionOrm.dll</HintPath>
+    </Reference>
+    <Reference Include="ZionShield">
+      <HintPath>..\..\api-common-bin\ZionShield\ZionShield.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>
