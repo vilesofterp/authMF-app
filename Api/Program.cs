@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ZionApi;
-using ZionShield;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-var app = builder.Build();
 
-/* provisorio
 builder.Services
     .AddAuthentication(options =>
     {
@@ -40,14 +40,11 @@ builder.Services
 
         ZionToken.SignApi("VAS AUTH", secretKey);
     });
-/*
 
-// VAS Authentication - Begin
-app.UseMiddleware<ZionShieldMiddleware>(
-    ZionEnv.GetValue("VAS_AUTH_TOKEN_VALIDATE_URL"),
-    ZionEnv.GetValue("TOKEN_PARTNER")
-);
-*/
+
+var app = builder.Build();
+
+
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -63,6 +60,10 @@ app.UseZionExceptionMiddleware();
 if (!app.Environment.IsDevelopment())
 {
     builder.WebHost.UseUrls("http://*:9002");
+}
+else
+{
+    Environment.SetEnvironmentVariable("debug_mode", "1");
 }
 
 app.MapControllers();

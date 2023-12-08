@@ -1,0 +1,22 @@
+Fluxo do authMF
+===============
+
+1. Signup do VAS
+  Ao fazer o SignUp o VAS não manipula estes dados, o banco de dados os guarda como null ou vazio.
+
+2. Registro:
+  Quando o authMF_app logar e o "token_auth_public" estiver null or em branco, irá fazer a requisição para registrar o mobile:
+  service: authMF/api/register
+  --> payload da requisição:
+      token_access (do VAS)
+      id_user bigint (id do usuario logado)
+  <-- payload de resposta:
+      token_auth_public
+
+  Salve o token_auth_public localmente  usando AsyncStorage no React Native
+
+3.
+
+      
+
+      
