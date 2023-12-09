@@ -11,17 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Otp.NET" Version="1.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ZionHelper">
-      <HintPath>..\..\api-common-bin\ZionHelper\ZionHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="ZionOrm">
-      <HintPath>..\..\api-common-bin\ZionOrm\ZionOrm.dll</HintPath>
-    </Reference>
     <Reference Include="ZionShield">
       <HintPath>..\..\api-common-bin\ZionShield\ZionShield.dll</HintPath>
     </Reference>
@@ -29,11 +22,12 @@
 
   <ItemGroup>
     <Folder Include="Doc\" />
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\api-common-src\ZionApi\ZionApi.csproj" />
+    <ProjectReference Include="..\..\api-common-src\ZionHelper\ZionHelper.csproj" />
+    <ProjectReference Include="..\..\api-common-src\ZionOrm\ZionOrm.csproj" />
   </ItemGroup>
 
 </Project>

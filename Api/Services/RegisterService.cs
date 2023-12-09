@@ -3,87 +3,52 @@ using Newtonsoft.Json.Linq;
 using ZionApi;
 using ZionOrm;
 using Api.Dtos;
-using OtpNet;
-using System.Text;
+using ZionHelper;
+using Api.Models;
 
 namespace Api.Services
 {
     public class RegisterService : ZionCrud
     {
-        protected JObject json;
-
         public RegisterService(object request) : base(request)
         {
             serviceName = "Register";
             tableName = "user";
-            //dataModel = new UserModel();
+            dataModel = new UserModel();
             dto = new RegisterDto();
         }
         public JObject Register()
         {
+            ZionDto.UnMappedFields = "token_auth_private";
             json = ZionDto.MapperDto(ref dto, base.requestData);
 
-            if (ZionDto.GetMap("status") != "success")
+            if (GetJson("status") != "success")
             {
                 return ZionResponse.Fail(api_error: 23, body: "Dto Mapper", statusCode: 400, "auto", messageLog: ZionDto.GetResult());
             }
 
+            string filter = "id = " + SqlPar(dto.Id.ToString()) + " and email = " + SqlPar(dto.Email.ToLower()) + " and active = 1 and deleted = 0";
+            json = Get(filter, "name");
+
+            if (GetJson("status") != "xsuccess")
+            {
+                return json;
+            }
+
+            double countRows = ZionConv.ToDouble(GetJsonSummary("records_query"));
+
+            if (countRows != 1)  
+            {
+                return ZionResponse.Fail(api_error: 53, body: "", statusCode: 400, "auto", messageLog: "User not found with id and email received: " + LastSqlSentence);
+            }
+
+            // App registration
             ZionTotp totp = new ZionTotp();
-
-            //string privateKey = totp.NewPrivateKey();
-            string privateKey = "VGtoRmVWRkZhbkF4UVRKdFRreHhVbWhhWkVkRFlXUkVTVlJyUFE9PQ==";
-
-            json.Add("private: ", privateKey);
-
-            string totpCode = totp.GetTotp(privateKey);
-
-            json.Add("totpCode: ", totpCode);
-
-            json.Add("result: ", totp.VerifyTotp(totpCode, privateKey).ToString());
-
-            return json;
+            dto.Token_auth_private = totp.NewPrivateKey();
+            
+            JObject response = new JObject();
+            response.Add("token_auth_private", ZionSecurity.Mask(dto.Token_auth_private, offset: 24));
+            return ZionResponse.Success(response);
         }
-    }
-
-    public class ZionTotp
-    {
-        public byte[] NewPrivateKey()
-        {
-            long timestamp = DateTime.UtcNow.Ticks;
-
-            var key = KeyGeneration.GenerateRandomKey(20);
-
-            byte[] timestampBytes = BitConverter.GetBytes(timestamp);
-
-            for (int i = 0; i < 8; i++)
-            {
-                key[i] ^= timestampBytes[i % 8];
-            }
-
-            return key;
-        }
-
-        public string GetTotp(string secretKey)
-        {
-            byte[] privateKey = Convert.FromBase64String(secretKey);
-
-            var totp = new Totp(privateKey);
-            var totpCode = totp.ComputeTotp();
-            return totpCode;
-        }
-
-        public JObject VerifyTotp(string userEnteredCode, string privateKey)
-        {
-            var totp = new Totp(Convert.FromBase64String(privateKey));
-            bool isValid = totp.VerifyTotp(userEnteredCode, out _, new VerificationWindow(1, 1));
-
-            if (isValid) 
-            {
-                return ZionResponse.Success("valido");
-            }
-
-            return ZionResponse.Fail(51, "", 400, "auto", "Incorrect ou expired Totp Code");
-        }
-
     }
 }
