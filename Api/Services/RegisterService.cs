@@ -1,10 +1,10 @@
-﻿
-using Newtonsoft.Json.Linq;
-using ZionApi;
+﻿using Api.Dtos;
 using ZionOrm;
-using Api.Dtos;
+using ModelVAS;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 using ZionHelper;
-using Api.Models;
+using ZionApi;
 
 namespace Api.Services
 {
@@ -17,38 +17,30 @@ namespace Api.Services
             dataModel = new UserModel();
             dto = new RegisterDto();
         }
-        public JObject Register()
+
+        public dynamic Register()
         {
-            ZionDto.UnMappedFields = "token_auth_private";
-            json = ZionDto.MapperDto(ref dto, base.requestData);
+            // Flow Crud
+            ZionModel model = new ZionModel(dataModel);
+            //model.Condition = "id = " + SqlPar(dto.Id.ToString()) + " and email = " + SqlPar(dto.Email.ToLower()) + " and deleted = 0 and active = 1";
+            model.Condition = "id = @id@ and email = @email@ and deleted = 0 and active = 1";
+            string UnMappedFields = "token_auth_mf";
+            json = Flow(ref model, UnMappedFields);
 
             if (GetJson("status") != "success")
-            {
-                return ZionResponse.Fail(api_error: 23, body: "Dto Mapper", statusCode: 400, "auto", messageLog: ZionDto.GetResult());
-            }
-
-            string filter = "id = " + SqlPar(dto.Id.ToString()) + " and email = " + SqlPar(dto.Email.ToLower()) + " and active = 1 and deleted = 0";
-            json = Get(filter, "name");
-
-            if (GetJson("status") != "xsuccess")
             {
                 return json;
             }
 
-            double countRows = ZionConv.ToDouble(GetJsonSummary("records_query"));
-
-            if (countRows != 1)  
-            {
-                return ZionResponse.Fail(api_error: 53, body: "", statusCode: 400, "auto", messageLog: "User not found with id and email received: " + LastSqlSentence);
-            }
-
-            // App registration
+            // Edit data
             ZionTotp totp = new ZionTotp();
-            dto.Token_auth_private = totp.NewPrivateKey();
-            
-            JObject response = new JObject();
-            response.Add("token_auth_private", ZionSecurity.Mask(dto.Token_auth_private, offset: 24));
-            return ZionResponse.Success(response);
+            model.RecordNew.token_auth_mf = ZionSecurity.Mask(totp.NewPrivateKey(), 64);
+
+            // Save data
+            model.ResponseFields = "id, token_auth_mf";
+            json = model.Save(serviceName);
+            return json;
         }
     }
 }
+

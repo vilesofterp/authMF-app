@@ -1,0 +1,1 @@
+2023-12-09 17:50:37.9374739Z;Api;The SQL statement is suspected of SQL Injection. The execution was blocked. Please verify. parameter: ze@gmail.com or id = (select 1 from user)  action: select

@@ -1,0 +1,65 @@
+﻿            // Validates unique key
+            dynamic uniqueKeys;
+
+            try
+            {
+                uniqueKeys = orm.GetTableIndex(TableName);
+            }
+            catch (ZionException e)
+            {
+                dbErrorCode = ZionConv.ToDouble(e.Message);
+                return GetResponse(dbErrorCode, json, orm.GetDbError() + " - " + orm.GetLastSqlSentence());
+            }
+
+            string ukName, ukFields, condition;
+
+            foreach (var uk in uniqueKeys)
+            {
+                ukName = uk.Key;
+                ukFields = uk.Value;
+                string[] fields = ukFields.Split(',');
+                condition = "";
+
+                foreach (var field in fields)
+                {
+                    string fieldName = field.Trim();
+
+                    if (fieldName != "id")
+                    {
+                        string fieldValue = GetValue(fieldName);
+
+                        if (fieldValue != null)
+                        {
+                            condition += (condition != "" ? " and " : "") + fieldName + " = " + ZionSecurity.HtmlFilter(fieldValue);
+                        }
+                    }
+                }
+
+                if (condition != "")
+                {
+                    DataTable table = new DataTable();
+
+                    try
+                    {
+                        table = orm.Select(TableName, "id", condition);
+                    }
+                    catch (ZionException e)
+                    {
+                        dbErrorCode = ZionConv.ToDouble(e.Message);
+                        return GetResponse(dbErrorCode, json, orm.GetDbError() + " - " + orm.GetLastSqlSentence());
+                    }
+
+                    if (orm.GetRowsAffected() > 0)
+                    {
+                        double idUk = Convert.ToInt64(table.Rows[0]["id"]);
+
+                        if (idUk != id)
+                        {
+                            json.Add("violation_uk", ukName);
+                            return GetResponse(15, json, $"duplicate key value violates unique constraint {ukName}");
+                        }
+                    }
+                }
+            }
+
+                
