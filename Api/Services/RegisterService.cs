@@ -22,7 +22,6 @@ namespace Api.Services
         {
             // Flow Crud
             ZionModel model = new ZionModel(dataModel);
-            //model.Condition = "id = " + SqlPar(dto.Id.ToString()) + " and email = " + SqlPar(dto.Email.ToLower()) + " and deleted = 0 and active = 1";
             model.Condition = "id = @id@ and email = @email@ and deleted = 0 and active = 1";
             string UnMappedFields = "token_auth_mf";
             json = Flow(ref model, UnMappedFields);

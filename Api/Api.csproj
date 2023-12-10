@@ -11,13 +11,24 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Npgsql" Version="8.0.1" />
     <PackageReference Include="Opt.Net" Version="0.1.0.48" />
+    <PackageReference Include="Otp.NET" Version="1.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ModelVAS">
       <HintPath>..\..\api-common-bin\ZionModel\ModelVAS.dll</HintPath>
+    </Reference>
+    <Reference Include="ZionApi">
+      <HintPath>..\..\api-common-bin\ZionApi\ZionApi.dll</HintPath>
+    </Reference>
+    <Reference Include="ZionHelper">
+      <HintPath>..\..\api-common-bin\ZionHelper\ZionHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="ZionOrm">
+      <HintPath>..\..\api-common-bin\ZionOrm\ZionOrm.dll</HintPath>
     </Reference>
     <Reference Include="ZionShield">
       <HintPath>..\..\api-common-bin\ZionShield\ZionShield.dll</HintPath>
@@ -26,12 +37,6 @@
 
   <ItemGroup>
     <Folder Include="log\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\api-common-src\ZionApi\ZionApi.csproj" />
-    <ProjectReference Include="..\..\api-common-src\ZionHelper\ZionHelper.csproj" />
-    <ProjectReference Include="..\..\api-common-src\ZionOrm\ZionOrm.csproj" />
   </ItemGroup>
 
 </Project>
