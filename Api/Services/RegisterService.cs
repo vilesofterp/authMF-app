@@ -36,7 +36,7 @@ namespace Api.Services
             model.RecordNew.token_auth_mf = ZionSecurity.Mask(totp.NewPrivateKey(), 64);
 
             // Save data
-            model.ResponseFields = "id, token_auth_mf";
+            model.ResponseFields = "id, @token_auth_mf";
             json = model.Save(serviceName);
             return json;
         }

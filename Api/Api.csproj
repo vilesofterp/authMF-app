@@ -39,4 +39,9 @@
     <Folder Include="log\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\api-common-src\ZionApi\ZionApi.csproj" />
+    <ProjectReference Include="..\..\api-common-src\ZionOrm\ZionOrm.csproj" />
+  </ItemGroup>
+
 </Project>
