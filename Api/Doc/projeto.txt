@@ -4,19 +4,6 @@ Fluxo do authMF
 1. Signup do VAS
   Ao fazer o SignUp o VAS não manipula estes dados, o banco de dados os guarda como null ou vazio.
 
-2. Registro:
-  Quando o authMF_app logar e o "token_auth_public" estiver null or em branco, irá fazer a requisição para registrar o mobile:
-  service: authMF/api/register
-  --> payload da requisição:
-      token_access (do VAS)
-      id_user bigint (id do usuario logado)
-  <-- payload de resposta:
-      token_auth_public
-
-  Salve o token_auth_public localmente  usando AsyncStorage no React Native
-
-3.
-
       
 resumindo para analise:
 
@@ -26,15 +13,15 @@ resumindo para analise:
  Se tiver tudo ok, não faz nada. 
  Se não tiver ele faz uma requisião a api solicitando um registor, enviando o id do usuario e o email ja que tem também para ser mais seguro. 
  A api irá retornar a chave privada e o app vai armazenar no celular. 
- Apos isto, quando for preciso do Totp, ele vai enviar id, email e esta chave privada (mandando isto tudo para ter mais segurança) ai volto o totp para ele, 
- não gero no celular e sim na API, com este codigo o usuario digita na web ou outro dispositivo que solicitou o totp. 
- a aplicação  que solicitou o totp ira fazer uma requisição a API com  id do usuario e emal (também por segurança, pois ela não tem a chave privada, só o app no mobile), 
- então pelo ID do usuario eu leio o banco de dados e pego a chave privada, a mesma enviada para o mobile anteriormente,
- ai faça o verify do totp, se ok, retorno para applicação web ok, ou não  
+ com este codigo o usuario digita na web ou outro dispositivo que solicitou o totp. 
+ a aplicação  que solicitou o totp ira fazer uma requisição a API com  id do usuario e email + codigo dititado
+ então pelo ID do usuario e email eu leio o banco de dados e pego a chave privada, a mesma enviada para o mobile anteriormente,
+ ai faço o verify do totp, se ok, retorno para applicação web ok, ou não  
 
  mas acima o proprio mobile deve implementar a geraçao do totp para reduzir chamadas a api e trafegar chave privada
 
- usar crypt e decrypt ma chave privada no trafego do json????
+ app ira usar umask para decrypt da chave privada evitando trafegar sem proteção na requisição
+
 
 
       

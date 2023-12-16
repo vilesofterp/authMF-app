@@ -1,8 +1,6 @@
 ﻿using Api.Dtos;
 using ZionOrm;
 using ModelVAS;
-using Newtonsoft.Json.Linq;
-using System.Reflection;
 using ZionHelper;
 using ZionApi;
 
@@ -20,6 +18,8 @@ namespace Api.Services
 
         public dynamic Register()
         {
+            RegisterDto dto = new RegisterDto();
+
             // Flow Crud
             ZionModel model = new ZionModel(dataModel);
             model.Condition = "id = @id@ and email = @email@ and deleted = 0 and active = 1";
@@ -36,7 +36,7 @@ namespace Api.Services
             model.RecordNew.token_auth_mf = ZionSecurity.Mask(totp.NewPrivateKey(), 64);
 
             // Save data
-            model.ResponseFields = "id, @token_auth_mf";
+            model.ResponseFields = "@token_auth_mf";
             json = model.Save(serviceName);
             return json;
         }

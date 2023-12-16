@@ -18,8 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="log\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ModelVAS">
       <HintPath>..\..\api-common-bin\ZionModel\ModelVAS.dll</HintPath>
+    </Reference>
+    <Reference Include="VasLog">
+      <HintPath>..\..\api-common-bin\VasLog\VasLog.dll</HintPath>
     </Reference>
     <Reference Include="ZionApi">
       <HintPath>..\..\api-common-bin\ZionApi\ZionApi.dll</HintPath>
@@ -33,10 +40,6 @@
     <Reference Include="ZionShield">
       <HintPath>..\..\api-common-bin\ZionShield\ZionShield.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="log\" />
   </ItemGroup>
 
 </Project>
