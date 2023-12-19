@@ -2,7 +2,7 @@
 using ZionOrm;
 using ModelVAS;
 using ZionHelper;
-using ZionApi;
+using VasLog.Services;
 
 namespace Api.Services
 {
@@ -18,11 +18,11 @@ namespace Api.Services
 
         public dynamic Register()
         {
-            RegisterDto dto = new RegisterDto();
+           // RegisterDto dto = new RegisterDto();
 
             // Flow Crud
             ZionModel model = new ZionModel(dataModel);
-            model.Condition = "id = @id@ and email = @email@ and deleted = 0 and active = 1";
+            model.Condition = "id = @id_user@ and email = @email@ and deleted = 0 and active = 1";
             string UnMappedFields = "token_auth_mf";
             json = Flow(ref model, UnMappedFields);
 
@@ -38,7 +38,22 @@ namespace Api.Services
             // Save data
             model.ResponseFields = "@token_auth_mf";
             json = model.Save(serviceName);
+
+            if (GetJson("status") == "success")
+            {
+                new UserLogService(
+                       id_user: dto.Id_user,
+                       code: 3,
+                       operation: "register app",
+                       latitude: dto.Latitude,
+                       longitude: dto.Longitude,
+                       altitude: dto.Altitude,
+                       ip: dto.Ip
+                   );
+            }
+
             return json;
+
         }
     }
 }
