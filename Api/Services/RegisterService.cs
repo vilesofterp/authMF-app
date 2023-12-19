@@ -37,20 +37,24 @@ namespace Api.Services
             // Save data
             model.ResponseFields = "@token_auth_mf";
             json = model.Save(serviceName);
+            int success = GetJson("status") == "success" ? 1 : 0;
+            int userLogCode = success == 1 ? 3 : 25;
 
-            if (GetJson("status") == "success")
-            {
-                new UserLogService(
-                       id_user: dto.Id_user,
-                       code: 3,
-                       operation: "",
-                       latitude: dto.Latitude,
-                       longitude: dto.Longitude,
-                       altitude: dto.Altitude,
-                       ip: dto.Ip
-                   );
-            }
+            // user log
+            new UserLogService(
+                id_user: dto.Id_user,
+                code: userLogCode,
+                operation: "",
+                latitude: dto.Latitude,
+                longitude: dto.Longitude,
+                altitude: dto.Altitude,
+                ip: dto.Ip
+            );
 
+            // Auth_mf  log
+            new AuthMfLogService(id_partner: dto.Id_partner, id_user: dto.Id_user, success);
+
+            // Result
             return json;
 
         }

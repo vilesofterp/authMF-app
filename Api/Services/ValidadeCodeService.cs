@@ -31,7 +31,8 @@ namespace Api.Services
             // Code Validation
             ZionTotp totp = new ZionTotp();
             json = totp.VerifyTotp(dto.Code, ZionSecurity.UnMask(model.RecordNew.token_auth_mf, 64));
-            int userLogCode = GetJson("status") == "success"  ? 23 : 24;
+            int success = GetJson("status") == "success" ? 1 : 0;
+            int userLogCode = success == 1 ? 23 : 24;
 
             // user log
             new UserLogService(
@@ -44,6 +45,10 @@ namespace Api.Services
                 ip: dto.Ip
             );
 
+            // Auth_mf  log
+            new AuthMfLogService(id_partner: dto.Id_partner, id_user: dto.Id_user, success);
+
+            // Result
             return json;
         }
     }
