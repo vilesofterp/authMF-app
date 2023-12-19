@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-
 builder.Services
     .AddAuthentication(options =>
     {
@@ -44,7 +43,6 @@ builder.Services
 
 var app = builder.Build();
 
-
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -52,7 +50,7 @@ app.UseAuthorization();
 // VAS Authentication - End
 
 // App Version
-Environment.SetEnvironmentVariable("apiVersion", "1.1.0");
+Environment.SetEnvironmentVariable("apiVersion", "1.0.0");
 
 // Add Exceptions Middleware
 app.UseZionExceptionMiddleware();

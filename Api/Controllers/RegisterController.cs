@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Api.Services;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Api
 {

@@ -2,13 +2,13 @@
 
 namespace Api.Dtos
 {
-    public class ValidateTotpDto : ZionValidation
+    public class ValidateCodeDto : ZionValidation
     {
         public long Id_user { get; set; }
         public string Email { get; set; }
-        public string TotpCodel { get; set; }
+        public string Code { get; set; }
 
-        public ValidateTotpDto()
+        public ValidateCodeDto()
         {
             MapperValidation();
         }
@@ -25,7 +25,7 @@ namespace Api.Dtos
                 {"VALID_EMAIL", 1},
             };
 
-            Validation["TotpCode"] = new Dictionary<string, object>
+            Validation["Code"] = new Dictionary<string, object>
             {
                 {"MIN_LEN", 6},
                 {"MAX_LEN", 6},

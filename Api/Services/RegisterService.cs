@@ -3,6 +3,7 @@ using ZionOrm;
 using ModelVAS;
 using ZionHelper;
 using VasLog.Services;
+using System.ComponentModel;
 
 namespace Api.Services
 {
@@ -18,8 +19,6 @@ namespace Api.Services
 
         public dynamic Register()
         {
-           // RegisterDto dto = new RegisterDto();
-
             // Flow Crud
             ZionModel model = new ZionModel(dataModel);
             model.Condition = "id = @id_user@ and email = @email@ and deleted = 0 and active = 1";
@@ -44,7 +43,7 @@ namespace Api.Services
                 new UserLogService(
                        id_user: dto.Id_user,
                        code: 3,
-                       operation: "register app",
+                       operation: "",
                        latitude: dto.Latitude,
                        longitude: dto.Longitude,
                        altitude: dto.Altitude,
