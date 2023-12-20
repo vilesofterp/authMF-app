@@ -6,19 +6,28 @@ using Api.Dtos;
 
 namespace VasLog.Services
 {
-    public class AuthMfStatService
+    public class AuthMfLogService : ZionCrud
     {
-        public AuthMfStatService(long id_partner, long id_user, int success)
+        public AuthMfLogService(string token_partner, long id_user, int success): base(request: "")
         {
-            AuthMfStatDto dto = new();
-            dto.id_partner = id_partner;
+            serviceName = "AuthMfLog";
+            tableName = "auth_mf_log";
+            dataModel = new AuthMfLogModel();
+            dto = new AuthMfLogDto();
+            json = LoadPartner(token_partner);
+            dto.id_partner = GetJsonRecord(1, "id");
             dto.id_user = id_user;      
             dto.success = success;
 
-            AuthMfStatModel AuthMfStatModel = new();
-            dynamic model = new ZionModel(AuthMfStatModel, "auth_mf_log", "2");
-            JObject json = ZionDto.MapperModel(dto, ref model.RecordNew);
-            json = model.Save("AuthMfStat");
+            /*
+             * Preste atenção em alterações neste serviço: 
+             * Pois, gravar a tabela auth_mf_log, ela dispara uma cadeia de triggers no banco de dados para gerar estatisticas de requisição por partner
+             *
+             **/
+            AuthMfLogModel AuthMfLogModel = new();
+            dynamic model = new ZionModel(AuthMfLogModel, "auth_mf_log", "2");
+            json = ZionDto.MapperModel(dto, ref model.RecordNew);
+            json = model.Save("AuthMfLog");
         }
     }
 }

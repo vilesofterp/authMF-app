@@ -3,7 +3,6 @@ using ZionOrm;
 using ModelVAS;
 using ZionHelper;
 using VasLog.Services;
-using System.ComponentModel;
 
 namespace Api.Services
 {
@@ -52,7 +51,7 @@ namespace Api.Services
             );
 
             // Auth_mf  log
-            new AuthMfLogService(id_partner: dto.Id_partner, id_user: dto.Id_user, success);
+            new AuthMfLogService(token_partner: dto.Token_partner, id_user: dto.Id_user, success);
 
             // Result
             return json;
