@@ -1,3 +1,0 @@
-2023-12-10 02:59:35.7866363Z;Api;{ source = Response.Fail(), alert = Blank recorded log, message = 400; 1.1.0; ZionOrm.ZionCrud; 99; *** AUDIT *** }
-2023-12-10 03:00:20.6432448Z;Api;{ source = Response.Fail(), alert = Blank recorded log, message = 400; 1.1.0; ZionOrm.ZionCrud; 99; *** AUDIT *** }
-2023-12-10 03:06:05.4378043Z;Api;{ source = Response.Fail(), alert = Blank recorded log, message = 400; 1.1.0; ZionOrm.ZionCrud; 99; *** AUDIT *** }

@@ -46,7 +46,14 @@ namespace Api.Services
             );
 
             // Auth_mf  log
-            new AuthMfLogService(token_partner: dto.Token_partner, id_user: dto.Id_user, success);
+            new AuthMfLogService(
+                token_partner: dto.Token_partner,
+                id_user: dto.Id_user,
+                success,
+                latitude: dto.Latitude,
+                longitude: dto.Longitude,
+                altitude: dto.Altitude,
+                ip: dto.Ip);
 
             // Result
             return json;
