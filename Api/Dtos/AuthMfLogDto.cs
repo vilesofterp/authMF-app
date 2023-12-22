@@ -8,6 +8,7 @@ namespace Api.Dtos
         public long id { get; set; }
         public long id_partner { get; set; }
         public long id_user { get; set; }
+        public long id_user_log { get; set; }
         public DateTime date { get; set; }
         public int success { get; set; }
         public AuthMfLogDto()
@@ -23,6 +24,11 @@ namespace Api.Dtos
             };
 
             Validation["Id_partner"] = new Dictionary<string, object>
+            {
+                {"MIN_VAL", 1},
+            };
+
+            Validation["Id_user_log"] = new Dictionary<string, object>
             {
                 {"MIN_VAL", 1},
             };

@@ -35,7 +35,7 @@ namespace Api.Services
             int userLogCode = success == 1 ? 23 : 24;
 
             // user log
-            new UserLogService(
+            UserLogService userlogService = new UserLogService(
                 id_user: dto.Id_user,
                 code: userLogCode,
                 operation: "",
@@ -46,14 +46,7 @@ namespace Api.Services
             );
 
             // Auth_mf  log
-            new AuthMfLogService(
-                token_partner: dto.Token_partner,
-                id_user: dto.Id_user,
-                success,
-                latitude: dto.Latitude,
-                longitude: dto.Longitude,
-                altitude: dto.Altitude,
-                ip: dto.Ip);
+            new AuthMfLogService(token_partner: dto.Token_partner, id_user: dto.Id_user, id_user_log: userlogService.id_user_log, success);
 
             // Result
             return json;

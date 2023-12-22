@@ -8,15 +8,7 @@ namespace Api.Services
 {
     public class AuthMfLogService : ZionCrud
     {
-        public AuthMfLogService(
-           string token_partner, 
-           long id_user,
-           int success,
-           decimal latitude,
-           decimal longitude,
-           decimal altitude,
-           string ip
-           ) : base(request: new CustomRequestForm())
+        public AuthMfLogService(string token_partner, long id_user, long id_user_log, int success): base(request: new CustomRequestForm())
         {
             serviceName = "AuthMfLog";
             tableName = "auth_mf_log";
@@ -25,11 +17,8 @@ namespace Api.Services
             DataTable tb = LoadPartner(token_partner);
             dto.id_partner = (long)tb.Rows[0]["ID"];
             dto.id_user = id_user;      
+            dto.id_user_log = id_user_log;
             dto.success = success;
-            dto.Latitude = latitude;
-            dto.Longitude = longitude;
-            dto.Altitude = altitude;
-            dto.Ip = ip;
             ZionModel model = new ZionModel(dataModel, "auth_mf_log", "2");
             json = ZionDto.MapperModel(in dto, ref model.RecordNew);
             json = model.Save("AuthMfLogService");
