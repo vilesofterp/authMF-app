@@ -19,11 +19,15 @@
 
   <ItemGroup>
     <Folder Include="log\" />
+    <Folder Include="Doc\" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ModelVAS">
       <HintPath>..\..\api-common-bin\ZionModel\ModelVAS.dll</HintPath>
+    </Reference>
+    <Reference Include="VasLog">
+      <HintPath>..\..\api-common-bin\VasLog\VasLog.dll</HintPath>
     </Reference>
     <Reference Include="ZionApi">
       <HintPath>..\..\api-common-bin\ZionApi\ZionApi.dll</HintPath>

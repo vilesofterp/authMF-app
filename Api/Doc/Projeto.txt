@@ -1,0 +1,84 @@
+
+Como funciona o authMf?
+=======================
+1. Usuário baixo o app authMF
+
+2. Usuário faz login no app usando o pacote npm do VAS mobile
+
+3. Logo após logar o app precisa mostrar a lista de partners que usam o authMf, para isto irá fazer a chamada a api GetPartners, como segue:
+
+4. GetPartners
+   - Exemplo:
+    4.1) payload deve ter: Exemplo chamada php que deve ser adaptada para o react native
+	<?php
+
+	require_once "HeaderApi.php";
+
+	$_REQUEST['AccessToken'] = "lixo"; // $_REQUEST["access_token"];
+	$_REQUEST['id_user'] = "1";
+	$_REQUEST['email'] = "ze@gmail.com";
+	$_REQUEST['latitude'] = -22.9068;
+	$_REQUEST['longitude'] = -43.1729;
+	$_REQUEST['ip'] = "136.22.13.69";
+	$_REQUEST['token_partner'] = "dfdsff54f5454jkllgjhgytuytyu";
+
+	$response = Api::call("https://localhost:7066/api/GetPartners", $_REQUEST);
+	echo $response;    
+	?>
+	                            
+
+	4.2) A requisição acima irá retornar a lista dos partners autorizados, que serão usados para a lista que o usuário poderá clicar para gerar o Totp
+	     Também irá gravar a tabela auth_mf com dados do id_user, id_partner e partner_token_mf gerado abaixo para cada partner. Será usado em outra chamada API para validar o codigo.
+	{
+		"status": "success",
+		"code": 200,
+		"api_version": "1.0.0",
+		"zionapi_version": "1.0033",
+		"service": "Api.Services.GetPartnersService",
+		"created": "2023-12-24 04:42:32.9889669Z",
+		"result": {
+			"1": {
+				"partner_id": "1",
+				"partner_name": "Empresa modelo",
+				"partner_nickname": "modelo",
+				"partner_updated_at": "1703392910319",
+				"partner_token_mf": "dNqET/ctAvwaNbgwpUNYows9HQo="
+			},
+			"2": {
+				"partner_id": "2",
+				"partner_name": "empresa 2",
+				"partner_nickname": "nick 2",
+				"partner_updated_at": "1703392910319",
+				"partner_token_mf": "fbYaz6O1HLlDokdr1IyoooTc1Cg="
+			}
+		}
+	}
+
+	4.3) O partner_token_mf é a chave privada do partner no celular que devera ser armazenada no local seguro do mobile
+
+5) Quando o usuário clicar no partber acima o app irá mosrar o totp gerado com a biblioteca totp do react native
+
+6) A aplicação web que soliicou o totp do app, assim que o usuário o informar, irá fazer uma requisição para api com o seguintes:
+
+    4.1) payload deve ter: Exemplo chamada php que deve ser adaptada para o Angular (web)
+	<?php
+
+	require_once "HeaderApi.php";
+
+	$_REQUEST['AccessToken'] = "lixo"; // $_REQUEST["access_token"];
+	$_REQUEST['id_user'] = "1";
+	$_REQUEST['email'] = "ze@gmail.com";
+	$_REQUEST['latitude'] = 0;
+	$_REQUEST['longitude'] = 0;
+	$_REQUEST['ip'] = "136.22.13.69";
+	$_REQUEST['id_partner'] = "dfdsff54f5454jkllgjhgytuytyu";
+
+	$response = Api::call("https://localhost:7066/api/ValidateCode", $_REQUEST);
+	echo $response;    
+	?>
+
+	A API vai ler a tabela auth_mf que tem o id_user, id_partner e o partner_token_mf (item 4.2) e retornar um json dizendo e ok ou não.
+
+
+	                            
+

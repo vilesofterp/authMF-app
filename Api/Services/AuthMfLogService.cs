@@ -14,6 +14,7 @@ namespace Api.Services
             tableName = "auth_mf_log";
             dataModel = new AuthMfLogModel();
             dto = new AuthMfLogDto();
+
             DataTable tb = LoadPartner(token_partner);
             dto.id_partner = (long)tb.Rows[0]["ID"];
             dto.id_user = id_user;      
