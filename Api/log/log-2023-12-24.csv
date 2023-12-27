@@ -1,7 +1,0 @@
-2023-12-24 03:45:51.8234637Z;Api;400; 1.0.0; ZionOrm.Postgres; 7; Unable to execute sql statement: 42702: column reference "id" is ambiguous
-
-POSITION: 217 | Sql Sentence: insert into auth_mf (id_user, id_partner, token_auth_mf, active) values('1', '1', 'Dv59fUn0oHIl5yWiZbh59WYQyE8=',1) on conflict(id_user, id_partner) do update set token_auth_mf = 'Dv59fUn0oHIl5yWiZbh59WYQyE8=' where id = '1';  | Action: exec Connection Number: 1
-2023-12-24 04:21:54.6180873Z;Api;400; 1.0.0; Api.Services.GetPartnersService; 60; No Partner was found with the data received in the request: SELECT p.id, c.name FROM partner p, company c WHERE p.id_company = c.id  AND p.deleted = 0  AND c.deleted = 0  AND p.active = 1 AND c.active = 1
-2023-12-24 04:38:27.7928900Z;Api;400; 1.0.0; ZionOrm.Postgres; 7; Unable to execute sql statement: 42703: column p.updated_at does not exist
-
-POSITION: 14 | Sql Sentence: SELECT p.id, p.updated_at, c.name, c.nickname FROM partner p, company c WHERE p.id_company = c.id  AND p.deleted = 0  AND c.deleted = 0  AND p.active = 1 AND c.active = 1 | Action: query Connection Number: 1
