@@ -42,7 +42,7 @@ Como funciona o authMf?
 				"partner_name": "Empresa modelo",
 				"partner_nickname": "modelo",
 				"partner_updated_at": "1703392910319",
-				"partner_token_mf": "dNqET/ctAvwaNbgwpUNYows9HQo="
+				"public_key": "dNqET/ctAvwaNbgwpUNYows9HQo="
 			},
 			"2": {
 				"partner_id": "2",

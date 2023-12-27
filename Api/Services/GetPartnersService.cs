@@ -11,6 +11,8 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Security.Cryptography.Xml;
 using System;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Services
 {
@@ -47,14 +49,19 @@ namespace Api.Services
                     string mf_partner_name = GetJsonRecord(i, "name");
                     string mf_partner_nickname = GetJsonRecord(i, "nickname");
                     string mf_partner_updated_at = GetJsonRecord(i, "updated_at");
-                    string mf_token_auth_mf = totp.NewPrivateKey();
+                    string mf_public_key = ZionSecurity.Mask(totp.NewPrivateKey(), 64);
+
+                    ZionEncrypter hash = new ZionEncrypter();
+                    string hashKey = mf_id_user + mf_id_partner + mf_public_key;
+                    string mf_private_key = hash.CreateHash(hashKey);
+
                     string push =
-                        "insert into auth_mf (id_user, id_partner, token_auth_mf, active) values(" +
+                        "insert into auth_mf (id_user, id_partner, public_key, private_key, active) values(" +
                         SqlPar(mf_id_user) + ", " +
                         SqlPar(mf_id_partner) + ", " +
-                        SqlPar(mf_token_auth_mf) +
-                        ", 1) on conflict(id_user, id_partner) do update set token_auth_mf = " +
-                        SqlPar(mf_token_auth_mf); 
+                        SqlPar(mf_public_key) + ", " +
+                        SqlPar(mf_private_key) +
+                        ", 1) on conflict(id_user, id_partner) do update set public_key = " + SqlPar(mf_public_key) + ", private_key = " + SqlPar(mf_private_key); 
                     orm.SetPush(push);
 
                     var register = new JObject()
@@ -63,7 +70,7 @@ namespace Api.Services
                         { "partner_name", mf_partner_name },
                         { "partner_nickname", mf_partner_nickname },
                         { "partner_updated_at", mf_partner_updated_at },
-                        { "partner_token_mf", mf_token_auth_mf }
+                        { "partner_public_key", mf_public_key }
                     };
 
                     response.Add(i.ToString(), register);

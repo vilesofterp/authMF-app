@@ -50,7 +50,7 @@ app.UseAuthorization();
 // VAS Authentication - End
 
 // App Version
-Environment.SetEnvironmentVariable("apiVersion", "1.0.0");
+ZionEnv.SetValue("apiVersion", "1.0.0");
 
 // Add Exceptions Middleware
 app.UseZionExceptionMiddleware();
@@ -61,7 +61,7 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    Environment.SetEnvironmentVariable("debug_mode", "1");
+    ZionEnv.SetValue("debug_mode", "1");
 }
 
 app.MapControllers();
