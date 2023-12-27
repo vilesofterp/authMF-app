@@ -30,7 +30,6 @@ namespace Api.Services
         {
             UserService userService = new(requestData);
             json = userService.LoadUser("id = @id_user@ and email = @email@ and deleted = 0 and active = 1");
-
             sqlQuery = "SELECT p.id, p.updated_at, c.name, c.nickname FROM partner p, company c WHERE p.id_company = c.id  AND p.deleted = 0  AND c.deleted = 0  AND p.active = 1 AND c.active = 1"; 
             ResponseFields = "name, nickname, @token, updated_at";
             json = Get();
@@ -95,7 +94,6 @@ namespace Api.Services
                 operation: "",
                 latitude: dto.Latitude,
                 longitude: dto.Longitude,
-                altitude: dto.Altitude,
                 ip: dto.Ip
             );
 

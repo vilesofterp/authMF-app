@@ -5,6 +5,9 @@ using ZionApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database Versions
+ZionEnv.SetValue("modelVAS", ModelVAS.ModelVAS.dbVersion);
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

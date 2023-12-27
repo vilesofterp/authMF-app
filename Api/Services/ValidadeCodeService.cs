@@ -41,7 +41,6 @@ namespace Api.Services
                 operation: "",
                 latitude: dto.Latitude,
                 longitude: dto.Longitude,
-                altitude: dto.Altitude,
                 ip: dto.Ip
             );
 
