@@ -25,7 +25,6 @@ namespace Api.Services
             dataModel = new PartnerModel();
             dto = new GetPartnersDto();
         }
-
         public dynamic GetPartners()
         {
             UserService userService = new(requestData);
@@ -40,6 +39,7 @@ namespace Api.Services
                 ZionTotp totp = new ZionTotp();
                 JObject response = new JObject();
                 Orm orm = new Orm();
+                ZionEncrypter hash = new ZionEncrypter();
 
                 for (int i = 1; i <= records; i++)
                 {
@@ -49,8 +49,6 @@ namespace Api.Services
                     string mf_partner_nickname = GetJsonRecord(i, "nickname");
                     string mf_partner_updated_at = GetJsonRecord(i, "updated_at");
                     string mf_public_key = ZionSecurity.Mask(totp.NewPrivateKey(), 64);
-
-                    ZionEncrypter hash = new ZionEncrypter();
                     string hashKey = mf_id_user + mf_id_partner + mf_public_key;
                     string mf_private_key = hash.CreateHash(hashKey);
 
