@@ -1,3 +1,0 @@
-2023-12-28 05:04:38.0983467Z;Api;The database version signature does not match.There is a suspected data breach in the version recorded in the database that being attempted to access; Database: vas-ext DBMS: Postgres connection: 2
-2023-12-28 05:10:24.2844490Z;Api;The database version signature does not match.There is a suspected data breach in the version recorded in the database that being attempted to access; Database: vas-ext DBMS: Postgres connection: 2
-2023-12-28 05:12:21.9637349Z;Api;The database version signature does not match.There is a suspected data breach in the version recorded in the database that being attempted to access; Database: vas-ext DBMS: Postgres connection: 2
