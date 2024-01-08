@@ -3,9 +3,7 @@ using ZionOrm;
 using ModelVAS;
 using ZionHelper;
 using VasLog.Services;
-using System.Data;
 using ZionApi;
-using Newtonsoft.Json.Linq;
 
 namespace Api.Services
 {

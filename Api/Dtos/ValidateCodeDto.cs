@@ -5,7 +5,6 @@ namespace Api.Dtos
     public class ValidateCodeDto : ZionValidation
     {
         public long Id_user { get; set; }
-        public string Email { get; set; }
         public string Code { get; set; }
 
         public ValidateCodeDto()
@@ -18,11 +17,6 @@ namespace Api.Dtos
             Validation["Id_user"] = new Dictionary<string, object>
             {
                 {"MIN_VAL", 1},
-            };
-
-            Validation["Email"] = new Dictionary<string, object>
-            {
-                {"VALID_EMAIL", 1},
             };
 
             Validation["Code"] = new Dictionary<string, object>

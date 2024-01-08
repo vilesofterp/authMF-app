@@ -3,16 +3,8 @@ using ZionOrm;
 using ModelVAS;
 using ZionHelper;
 using VasLog.Services;
-using System.Data;
 using Newtonsoft.Json.Linq;
 using ZionApi;
-using System.Collections.Generic;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Security.Cryptography.Xml;
-using System;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Api.Services
 {
@@ -27,8 +19,16 @@ namespace Api.Services
         }
         public dynamic GetPartners()
         {
-            UserService userService = new(requestData);
-            json = userService.LoadUser("id = @id_user@ and email = @email@ and deleted = 0 and active = 1");
+            string messageLog = "";
+
+            json = ZionDto.MapperDto(ref dto, requestData);
+
+            if (GetJson("status") != "success")
+            {
+                messageLog = ZionDto.GetResult();
+                return ZionResponse.Fail(23, "", 400, "auto", messageLog);
+            }
+
             sqlQuery = "SELECT p.id, p.updated_at, c.name, c.nickname FROM partner p, company c WHERE p.id_company = c.id  AND p.deleted = 0  AND c.deleted = 0  AND p.active = 1 AND c.active = 1"; 
             ResponseFields = "name, nickname, @token, updated_at";
             json = Get();
